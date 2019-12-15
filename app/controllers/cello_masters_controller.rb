@@ -70,7 +70,7 @@ class CelloMastersController < ApplicationController
       cello_master.rate = row['rate']
       cello_master.scheme = row['scheme']
       cello_master.net_rate = row['net_rate']
-      cello_master.product_image.attach(io: File.open(row['product_image']), filename: 'test.jpeg')
+      cello_master.product_image.attach(io: Pathname.new(row['product_image']).open, filename: 'test.jpeg')
       if cello_master.save
         @cello_masters.push(cello_master)
       end
