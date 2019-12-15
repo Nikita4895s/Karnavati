@@ -1,0 +1,18 @@
+<tr>
+  <td><%= cello_master.company_name %></td>
+  <td><%= cello_master.divison %></td>
+  <td><%= cello_master.category %></td>
+  <td><%= cello_master.product_name %></td>
+  <td><%= cello_master.capacity %></td>
+  <td><%= cello_master.volume %></td>
+  <td><%= cello_master.mrp %></td>
+  <td><%= cello_master.drp %></td>
+  <td><%= cello_master.trade_discount %></td>
+  <td><%= cello_master.rate %></td>
+  <td><%= cello_master.scheme %></td>
+  <td><%= cello_master.net_rate %></td>
+  <td><%= image_tag url_for(cello_master.product_image), class: 'product_image' %></td>
+  <td><%= link_to 'Show', cello_master %></td>
+  <td><%= link_to 'Edit', edit_cello_master_path(cello_master) %></td>
+  <td><%= link_to 'Destroy', cello_master, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+</tr>

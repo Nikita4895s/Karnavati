@@ -1,0 +1,5 @@
+<% if @cello_masters.present? %>
+	<% @cello_masters.each do |cello_master| %>
+  		$('#cello_master_list').append('<%= j(render partial: "cello_master_row", locals: {cello_master: cello_master}) %>');
+  	<% end %>
+<% end %>
