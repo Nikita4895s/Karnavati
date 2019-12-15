@@ -1,4 +1,5 @@
 class CelloMastersController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_cello_master, only: [:show, :edit, :update, :destroy]
 
   # GET /cello_masters
