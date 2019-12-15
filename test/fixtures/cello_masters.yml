@@ -1,0 +1,29 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  company_name: MyString
+  divison: MyString
+  category: MyString
+  product_name: MyString
+  capacity: 9.99
+  volume: MyString
+  mrp: 9.99
+  drp: 9.99
+  trade_discount: 9.99
+  rate: 9.99
+  scheme: 9.99
+  net_rate: 9.99
+
+two:
+  company_name: MyString
+  divison: MyString
+  category: MyString
+  product_name: MyString
+  capacity: 9.99
+  volume: MyString
+  mrp: 9.99
+  drp: 9.99
+  trade_discount: 9.99
+  rate: 9.99
+  scheme: 9.99
+  net_rate: 9.99

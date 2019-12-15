@@ -1,0 +1,82 @@
+<%= form_with(model: cello_master, local: true) do |form| %>
+  <% if cello_master.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(cello_master.errors.count, "error") %> prohibited this cello_master from being saved:</h2>
+
+      <ul>
+        <% cello_master.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :company_name %>
+    <%= form.text_field :company_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :divison %>
+    <%= form.text_field :divison %>
+  </div>
+
+  <div class="field">
+    <%= form.label :category %>
+    <%= form.text_field :category %>
+  </div>
+
+  <div class="field">
+    <%= form.label :product_name %>
+    <%= form.text_field :product_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :capacity %>
+    <%= form.text_field :capacity %>
+  </div>
+
+  <div class="field">
+    <%= form.label :volume %>
+    <%= form.text_field :volume %>
+  </div>
+
+  <div class="field">
+    <%= form.label :mrp %>
+    <%= form.text_field :mrp %>
+  </div>
+
+  <div class="field">
+    <%= form.label :drp %>
+    <%= form.text_field :drp %>
+  </div>
+
+  <div class="field">
+    <%= form.label :trade_discount %>
+    <%= form.text_field :trade_discount %>
+  </div>
+
+  <div class="field">
+    <%= form.label :rate %>
+    <%= form.text_field :rate %>
+  </div>
+
+  <div class="field">
+    <%= form.label :scheme %>
+    <%= form.text_field :scheme %>
+  </div>
+
+  <div class="field">
+    <%= form.label :net_rate %>
+    <%= form.text_field :net_rate %>
+  </div>
+
+  <div class="field">
+    <%= form.label :product_image %>
+    <%= form.file_field :product_image %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

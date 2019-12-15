@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Cello Masters</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Company name</th>
+      <th>Divison</th>
+      <th>Category</th>
+      <th>Product name</th>
+      <th>Capacity</th>
+      <th>Volume</th>
+      <th>Mrp</th>
+      <th>Drp</th>
+      <th>Trade discount</th>
+      <th>Rate</th>
+      <th>Scheme</th>
+      <th>Net rate</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @cello_masters.each do |cello_master| %>
+      <tr>
+        <td><%= cello_master.company_name %></td>
+        <td><%= cello_master.divison %></td>
+        <td><%= cello_master.category %></td>
+        <td><%= cello_master.product_name %></td>
+        <td><%= cello_master.capacity %></td>
+        <td><%= cello_master.volume %></td>
+        <td><%= cello_master.mrp %></td>
+        <td><%= cello_master.drp %></td>
+        <td><%= cello_master.trade_discount %></td>
+        <td><%= cello_master.rate %></td>
+        <td><%= cello_master.scheme %></td>
+        <td><%= cello_master.net_rate %></td>
+        <td><%= link_to 'Show', cello_master %></td>
+        <td><%= link_to 'Edit', edit_cello_master_path(cello_master) %></td>
+        <td><%= link_to 'Destroy', cello_master, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Cello Master', new_cello_master_path %>
