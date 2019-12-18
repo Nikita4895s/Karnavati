@@ -85,5 +85,5 @@ test:
 production:
   <<: *default
   database: karnavati_production
-  username: karnavati
-  password: <%= ENV['KARNAVATI_DATABASE_PASSWORD'] %>
+  username: postgres
+  password: postgres
