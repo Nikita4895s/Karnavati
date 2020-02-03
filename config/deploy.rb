@@ -12,6 +12,7 @@ set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public
 set :keep_releases, 5
 set :rvm_type, :user
 set :rvm_ruby_version, 'ruby-2.6.5' # Edit this if you are using MRI Ruby
+set :bundle_dir, "/usr/local/rvm/gems/ruby-2.6.3"
 
 set :puma_rackup, -> { File.join(current_path, 'config.ru') }
 set :puma_state, "#{shared_path}/tmp/pids/puma.state"
@@ -60,4 +61,4 @@ set :puma_preload_app, false
 # set :keep_releases, 5
 
 # Uncomment the following to require manually verifying the host key before first deploy.
-set :ssh_options, verify_host_key: :secure
+set :ssh_options, verify_host_key: :always
