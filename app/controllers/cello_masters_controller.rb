@@ -2,6 +2,7 @@ class CelloMastersController < ApplicationController
   protect_from_forgery with: :null_session
   before_action :authenticate_user!
   before_action :set_cello_master, only: [:show, :edit, :update, :destroy]
+  protect_from_forgery with: :null_session
   require 'csv'
 
   # GET /cello_masters
