@@ -11,7 +11,7 @@
   <td><%= cello_master.rate %></td>
   <td><%= cello_master.scheme %></td>
   <td><%= cello_master.net_rate %></td>
-  <td><%= image_tag url_for(cello_master.product_image), class: 'product_image' %></td>
+  <td><%= image_tag "http://drive.google.com/uc?export=view&id=#{cello_master.link_url&.split('=')&.last}", class: 'product_image' %></td>
   <td><%= link_to 'Show', cello_master %></td>
   <td><%= link_to 'Edit', edit_cello_master_path(cello_master) %></td>
   <td><%= link_to 'Destroy', cello_master, method: :delete, data: { confirm: 'Are you sure?' } %></td>
