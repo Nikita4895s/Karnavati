@@ -1,0 +1,112 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-danger">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link active" href="">Home <span class="sr-only">(current)</span></a>
+    </div>
+  </div>
+  <% if current_user.present? %>
+    <%= link_to destroy_user_session_path, method: :delete do %>
+      <button class= "btn btn-outline-success mx-2 my-2 my-sm-0 session_mgt">
+        Logout
+      </button>
+    <% end %>
+  <% else %>
+    <button type="button" class="btn btn-outline-success mx-2 my-2 my-sm-0 session_mgt" data-toggle="modal" data-target="#login">Login</button>
+  <% end %>
+</nav>
+<!-- Modal -->
+<% unless current_user.present? %>
+  <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog trans">
+      <div class="modal-content trans" style="width: 25em;" >
+        <div class="modal-header">
+          <h3><p class="modal-title">Login</p></h3>
+          <button class="close trans" data-dismiss="modal" type="button">
+            <%= image_tag 'close.svg', class: 'my-3' %>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="loginBox">
+            <div class="whiteBox">
+              <%= form_for(resource, as: resource_name, url: session_path(resource_name), class: 'simple_form login_in_popup', id: 'new_user', remote: true) do |f| %>
+                <div class="inputBox email my-2">
+                  <div class="input email optional user_email">
+                    <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'string email optional form-control input' %>
+                    <%= image_tag 'email.svg', class: 'logo' %>
+                  </div>
+                </div>
+                <div class="inputBox my-4">
+                  <div class="input password optional user_password">
+                    <%= f.password_field :password, autocomplete: "current-password", class: 'password optional form-control input' %>
+                  </div>
+                  <%= image_tag 'password.svg', class: 'logo' %>
+                </div>
+                <div class="radio signInCheck">
+                  <label class="container">
+                    <input class="" type="checkbox" id="Product" name="Product" value="Product">
+                    <span class="checkmark"></span>
+                  </label>
+                  <span class="mx-2 ml-5">Keep me signed in</span>
+                </div>
+                <input type="submit" name="commit" value="SIGN IN" class="btn button btn btn-primary my-3 w-100 submit_btn" data-disable-with="SIGN IN">
+              <% end %>
+              <span class="lostpsw">
+                <a class="trans disableContextMenu" id="forgot_password" data-remote="true" href="javascript:void(0);">Forgot password?</a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Forget Password model -->
+  <div class="modal fade" id="forget_password" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog trans">
+      <div class="modal-content trans" style="width: 25em;" >
+        <div class="modal-header">
+          <h3><p class="modal-title">Forget Password</p></h3>
+          <button class="close trans" data-dismiss="modal" type="button">
+            <%= image_tag "close.svg", class: 'my-3'%>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="loginBox">
+            <div class="whiteBox">
+              <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }, class: "simple_form login_in_popup") do |f| %>
+                <%= render "devise/shared/error_messages", resource: resource %>
+                <input name="utf8" type="hidden" value="✓">
+                <input type="hidden" name="from_checkout" id="from_checkout" value="false" class="from-checkout">
+                <div class="inputBox email my-2">
+                  <div class="input email optional user_email"><input class="string email optional form-control input" placeholder="Email" type="email" value="" name="user[email]" id="user_email">
+                    <%= image_tag "email.svg", class: 'logo'%>
+                  </div>
+                </div>
+                <input type="submit" name="commit" value="SUBMIT" class="btn button btn btn-primary my-3 w-100 submit_btn" data-disable-with="SUBMIT">
+              <% end %>
+              <div class="back_signin">
+                <a class="trans disableContextMenu" id="signin" data-remote="true" href="javascript:void(0);">Back to <span class="signin">Sing In</span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+<script type="text/javascript">
+  $('#forgot_password').click(function(){
+    $('#login').modal('hide');
+    setTimeout(function(){
+      $('#forget_password').modal('show');
+    }, 100);
+  });
+  $('#signin').click(function(){
+    $('#forget_password').modal('hide');
+    setTimeout(function(){
+      $('#login').modal('show');
+    }, 100);
+  });
+</script>

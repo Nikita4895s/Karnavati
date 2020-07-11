@@ -5,8 +5,7 @@ class CreateCelloMasters < ActiveRecord::Migration[6.0]
       t.string :divison
       t.string :category
       t.string :product_name
-      t.decimal :capacity
-      t.string :volume
+      t.string :capacity
       t.decimal :mrp
       t.decimal :drp
       t.decimal :trade_discount

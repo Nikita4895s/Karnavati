@@ -29,6 +29,12 @@ development:
   username: postgres
   password: postgres
 
+staging:
+  <<: *default
+  database: karnavati_staging
+  username: postgres
+  password: postgres
+
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --he lp`.
   # When left blank, postgres will use the default role. This is

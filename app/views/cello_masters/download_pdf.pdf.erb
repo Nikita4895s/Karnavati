@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="products.css">
+	<title></title>
+</head>
+<body>
+	<table>
+		<tr>
+			<td>
+				<h1>KARNAVATI MARKETING</h1>
+			</td>
+		</tr>
+	</table>
+	<br><br>
+<table>
+		<tr>
+			<td>
+				<h2><%= @pdf_name %> :<br> Rs.<%= @start_range %> To  Rs.<%= @end_range %></h2>
+			</td>
+		</tr>
+</table>
+<br><br>
+<table>
+	<% @cello_masters.each do |cello_master|%>
+		<tr>
+			<td>
+				<h2><%= "#{cello_master.company_name} #{cello_master.product_name} #{cello_master.capacity}" %></h2>
+				<h2><%= "MRP: Rs.#{cello_master.mrp}/- Special Nett Rate: #{cello_master.net_rate}"%></h2>
+				<p>
+					<%= image_tag "http://drive.google.com/uc?export=view&id=#{cello_master.link_url&.split('=')&.last}", style: 'width: 500px; height: 300px;' %>
+				</p>
+			</td>
+		</tr>
+	<% end %>
+</table>
+
+</body>
+</html>

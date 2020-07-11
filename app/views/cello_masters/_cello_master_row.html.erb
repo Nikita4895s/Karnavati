@@ -1,18 +1,22 @@
-<tr>
-  <td><%= cello_master.company_name %></td>
-  <td><%= cello_master.divison %></td>
-  <td><%= cello_master.category %></td>
-  <td><%= cello_master.product_name %></td>
-  <td><%= cello_master.capacity %></td>
-  <td><%= cello_master.volume %></td>
-  <td><%= cello_master.mrp %></td>
-  <td><%= cello_master.drp %></td>
-  <td><%= cello_master.trade_discount %></td>
-  <td><%= cello_master.rate %></td>
-  <td><%= cello_master.scheme %></td>
-  <td><%= cello_master.net_rate %></td>
-  <td><%= image_tag "http://drive.google.com/uc?export=view&id=#{cello_master.link_url&.split('=')&.last}", class: 'product_image' %></td>
-  <td><%= link_to 'Show', cello_master %></td>
-  <td><%= link_to 'Edit', edit_cello_master_path(cello_master) %></td>
-  <td><%= link_to 'Destroy', cello_master, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-</tr>
+<div class="col-sm-3">
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header main_1">
+      <label class="container">
+        <div>
+          <h6 class="ml-2 mrp"><%= cello_master.product_name.titleize %></h6>
+        </div>
+        <%= check_box_tag :cello_master_id, cello_master.id, false, class: 'cello_master_id' %>
+        <span class="checkmark"></span>
+      </label>
+    </div>
+    <div class="card-body">
+      <%= image_tag "http://drive.google.com/uc?export=view&id=#{cello_master.link_url&.split('=')&.last}", class: 'img-thumbnail product_img'%>
+      <div class="mt-3">
+        <h5 class="mrp">&#8377;<%= cello_master.mrp %></h5>
+        <button type="button" class="btn btn-sm ml-3 btn-outline-primary">Show More</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+

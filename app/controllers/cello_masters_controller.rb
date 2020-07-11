@@ -8,7 +8,8 @@ class CelloMastersController < ApplicationController
   # GET /cello_masters
   # GET /cello_masters.json
   def index
-    @cello_masters = CelloMaster.all
+    @q = CelloMaster.ransack(params[:q])
+    @cello_masters = @q.result
   end
 
   # GET /cello_masters/1
@@ -23,6 +24,20 @@ class CelloMastersController < ApplicationController
 
   # GET /cello_masters/1/edit
   def edit
+  end
+
+  def download_pdf
+    selected_ids = params[:selected_ids].split(',').map(&:to_i)
+    @cello_masters = CelloMaster.where(id: selected_ids)
+    @pdf_name = params[:pdf_file_name]
+    @start_range = params[:from_rs]
+    @end_range = params[:to_rs]
+    respond_to do |format|
+      format.html
+      format.pdf do
+        render pdf: "/cello_masters/pdf.html.erb"
+     end
+    end
   end
 
   # POST /cello_masters
@@ -65,7 +80,6 @@ class CelloMastersController < ApplicationController
       cello_master.category = row['category']
       cello_master.product_name = row['product_name']
       cello_master.capacity = row['capacity']
-      cello_master.volume = row['volume']
       cello_master.mrp = row['mrp']
       cello_master.drp = row['drp']
       cello_master.trade_discount = row['trade_discount']

@@ -1,14 +1,56 @@
 <%= form_for CelloMaster.new, url: upload_csv_path, method: :post, remote: true do |f| %>
-  <div class="row mt-5">
-    <div class="input-group">
-      <div class="input-group-prepend">
-        <%= f.submit 'Upload', class: 'input-group-text', id: 'inputGroupFileAddon01' %>
+  <div class="row mt-2">
+    <div class="col-md-6">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <%= f.submit 'Upload', class: 'btn btn-outline-danger', id: 'inputGroupFileAddon01' %>
+        </div>
+        <div class="custom-file">
+          <%= f.file_field :picture, class: "custom-file-input", id: "inputGroupFile01", 'aria-describedby': "inputGroupFileAddon01" %>
+          <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+        </div>
       </div>
-      <div class="custom-file">
-        <%= f.file_field :picture, class: "custom-file-input", id: "inputGroupFile01",
-                'aria-describedby': "inputGroupFileAddon01" %>
-        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+    </div>
+    <div class="col-md-2">&nbsp;</div>
+    <div class="col-md-4">
+      <button type="button" class="btn btn-outline-danger mx-2 my-2 my-sm-0" data-toggle="modal" data-target="#download_pdf">Download PDF</button>
+      <%= link_to 'New Cello Master', new_cello_master_path, class: 'btn btn-outline-danger mx-2 my-2 my-sm-0' %></div>
+  </div>
+<% end %>
+<div class="modal fade" id="download_pdf" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog trans">
+      <div class="modal-content trans" style="width: 25em;" >
+        <div class="modal-header">
+          <h3><p class="modal-title">Download PDF</p></h3>
+          <button class="close trans" data-dismiss="modal" type="button">
+            <%= image_tag 'close.svg', class: 'my-3' %>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="loginBox">
+            <div class="whiteBox">
+              <%= form_for CelloMaster.new, as: :cello_master, url: download_pdf_path, format: :pdf, class: 'simple_form login_in_popup' do |f| %>
+                <%= hidden_field_tag :selected_ids, [] %>
+                <div class="inputBox email my-2">
+                  <div class="input email optional user_email">
+                    <%= text_field_tag :pdf_file_name, '', placeholder: 'Enter PDF file Name', class: 'string email optional form-control input' %>
+                  </div>
+                </div>
+                <div class="inputBox my-4">
+                  <div class="input password optional user_password">
+                    <%= text_field_tag :from_rs, '', placeholder: 'Range start', class: 'password optional form-control input' %>
+                  </div>
+                </div>
+                <div class="inputBox my-4">
+                  <div class="input password optional user_password">
+                    <%= text_field_tag :to_rs, '', placeholder: 'Range end', class: 'password optional form-control input' %>
+                  </div>
+                </div>
+                <input type="submit" name="commit" value="Download PDF" class="btn button btn btn-primary my-3 w-100 submit_btn" data-disable-with="Download PDF">
+              <% end %>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-<% end %>

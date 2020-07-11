@@ -1,0 +1,175 @@
+.search{
+  background-color: #007680;
+  border-radius: 25px;
+  color: white;
+  border: none;
+  width: 100px;
+}
+#user_email{
+  width: 90%;
+  position: absolute;
+  border: 1px solid #adadad;
+  font-size: 0.825rem;
+  font-weight: 600;
+}
+.logo{
+  position: relative;
+  margin-left: 20em;
+  margin-top: 8px;
+}
+#user_password{
+  width: 90%;
+  position: absolute;
+  border: 1px solid #adadad;
+  font-size: 0.825rem;
+  font-weight: 600;
+}
+.submit{
+  position: absolute;
+  z-index: 000000;
+}
+#pwd::placeholder{
+  padding-left: 80px;
+}
+.dipen_1 checkbox::berfore{
+  position: absolute;
+  content: "";
+  width: 20px;
+  height: 20px;
+  border: 2px solid gray;
+}
+.search_forget{
+  width: 280px;
+  border: 2px solid blue;
+}
+.signin{
+  color: red;
+}
+.rs{
+  text-align: center;
+}
+.main{
+  background-color: white;
+  position: relative;
+    
+}
+.filter{
+  font-size: 18px;
+  text-transform: capitalize;
+  width: 67%;
+  font-weight: 500;
+}
+input[type=search], input[type=search]:focus {
+  outline: none;
+  border: none;
+  border-bottom: 2px solid red;
+  width: 100%;
+}
+
+/* The container */
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 22px;
+  width: 22px;
+  background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: red;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.ui-widget-header {
+  background: red !important; 
+}
+.main_1{
+  display: inline-flex;
+  height: 50px;
+}
+.back_signin{
+  text-align: center;
+}
+.submit_btn, .submit_btn:hover {
+  background-color: red;
+  border: none;
+}
+a {
+  color: grey;
+}
+a:hover{
+  text-decoration: none;
+  color: grey;
+}
+.ml-5{
+  margin-left: 2em !important;
+}
+.session_mgt{
+  background: white;
+  border: 1px solid white;
+  color: red !important;
+}
+.session_mgt:hover {
+  color: white !important;
+}
+.product_img{
+  height: 100px;
+  width: 200px;
+}
+.mrp{
+  margin-top: 3px;
+  float: left;
+}
