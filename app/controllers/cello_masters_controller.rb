@@ -86,7 +86,7 @@ class CelloMastersController < ApplicationController
       cello_master.rate = row['rate']
       cello_master.scheme = row['scheme']
       cello_master.net_rate = row['net_rate']
-      cello_master.link_url = row['product_image']
+      cello_master.link_url = "https://drive.google.com/open?id=#{row['product_image']}"
       # if row['product_image'].present?
       #   file_name = row['product_image'].split('/').last
       #   file_type = "image/#{file_name.split('.').last}"

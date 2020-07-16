@@ -1,14 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" type="text/css" href="products.css">
-	<title></title>
+	<style type="text/css">
+		table {
+			font-size: 40px;
+			text-align: center;
+			width: 100%;
+			top: 50px;
+			bottom: 50px;
+		}
+		td {
+			text-align: center;
+			width: 100%;
+			font-family: 
+		}
+		.data_row{
+			border: solid brown;
+			width: 180mm;
+		  height: 277mm;
+		  overflow: hidden;
+		  page-break-after: always;
+		}
+		input{ 
+			font-size: 40px;
+		}
+	</style>
 </head>
 <body>
 	<table>
 		<tr>
 			<td>
 				<h1>KARNAVATI MARKETING</h1>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<%= image_tag asset_url('cello_logo.jpg'), style: 'width: 500px; height: 700px;' %>
 			</td>
 		</tr>
 	</table>
@@ -23,7 +50,7 @@
 <br><br>
 <table>
 	<% @cello_masters.each do |cello_master|%>
-		<tr>
+		<tr class='data_row'>
 			<td>
 				<h2><%= "#{cello_master.company_name} #{cello_master.product_name} #{cello_master.capacity}" %></h2>
 				<h2><%= "MRP: Rs.#{cello_master.mrp}/- Special Nett Rate: #{cello_master.net_rate}"%></h2>
