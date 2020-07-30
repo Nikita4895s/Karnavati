@@ -62,7 +62,7 @@
 input[type=search], input[type=search]:focus {
   outline: none;
   border: none;
-  border-bottom: 2px solid red;
+  border-bottom: 2px solid #0721d5;
   width: 100%;
 }
 
@@ -166,10 +166,28 @@ a:hover{
   color: white !important;
 }
 .product_img{
-  height: 100px;
-  width: 200px;
+  height: 150px;
+  width: 300px;
 }
 .mrp{
   margin-top: 3px;
   float: left;
+}
+.amountBox {
+  border: 2px solid #0721d5 !important;
+  width: 40% !important;
+  padding-left: 5px; 
+}
+.select2-container .select2-selection--single{
+  height:34px !important;
+}
+.select2-container--default .select2-selection--single{
+  border: 1px solid #ccc !important; 
+  border-radius: 0px !important; 
+}
+.select2-container{
+  width: 100% !important;
+}
+.discount_field{
+  width: 100%;
 }

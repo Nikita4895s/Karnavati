@@ -1,4 +1,4 @@
-<div class="col-sm-3">
+<div class="col-sm-4">
   <div class="card mb-4 shadow-sm">
     <div class="card-header main_1">
       <label class="container">
@@ -10,13 +10,33 @@
       </label>
     </div>
     <div class="card-body">
-      <%= image_tag "http://drive.google.com/uc?export=view&id=#{cello_master.link_url&.split('=')&.last}", class: 'img-thumbnail product_img'%>
+      <div class="content__main">
+        <%= image_tag "http://drive.google.com/uc?export=view&id=#{cello_master.link_url&.split('=')&.last}", class: 'img-thumbnail product_img', id: 'img_cover' %>
+      </div>
       <div class="mt-3">
-        <h5 class="mrp">&#8377;<%= cello_master.mrp %></h5>
-        <button type="button" class="btn btn-sm ml-3 btn-outline-primary">Show More</button>
+        <div class="row">
+          <div class="col-md-3 text-center">
+            <p class="h6 mb-0">MRP</p>
+            <p class="mrp h6 mb-0">&#8377;<%= cello_master.mrp %></p>
+          </div>
+          <div class="col-md-3 text-center">
+            <p class="h6 mb-0">DRP</p>
+            <p class="mrp h6 mb-0">&#8377;<%= cello_master.drp %></p>
+          </div>
+          <div class="col-md-3 text-center">
+            <p class="h6 mb-0">Dis</p>
+            <p class="mrp h6 mb-0">
+              <%= number_field_tag 'discount', cello_master.discount, { data:{ id: cello_master.id }, class: 'discount_field'} %>
+            </p>
+          </div>
+          <div class="col-md-3 text-center">
+            <p class="h6 mb-0">Rate</p>
+            <p class="mrp h6 mb-0" id='rate_<%= cello_master.id %>'>
+              <%= cello_master.discount.present? ? (cello_master.drp - (cello_master.drp * cello_master.discount / 100)) : cello_master.drp  %>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
-
-

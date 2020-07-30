@@ -29,7 +29,7 @@
         <div class="modal-body">
           <div class="loginBox">
             <div class="whiteBox">
-              <%= form_for CelloMaster.new, as: :cello_master, url: download_pdf_path, format: :pdf, class: 'simple_form login_in_popup' do |f| %>
+              <%= form_for CelloMaster.new, as: :cello_master, url: download_pdf_path, format: :pdf, html: {class: 'simple_form login_in_popup', id: 'download_pdf_form'} do |f| %>
                 <%= hidden_field_tag :selected_ids, [] %>
                 <div class="inputBox email my-2">
                   <div class="input email optional user_email">
@@ -46,7 +46,7 @@
                     <%= text_field_tag :to_rs, '', placeholder: 'Range end', class: 'password optional form-control input' %>
                   </div>
                 </div>
-                <input type="submit" name="commit" value="Download PDF" class="btn button btn btn-primary my-3 w-100 submit_btn" data-disable-with="Download PDF">
+                <input type="submit" name="commit" value="Download PDF" class="btn button btn btn-primary my-3 w-100 submit_btn" id='download_pdf_submit' data-disable-with="Download PDF">
               <% end %>
             </div>
           </div>

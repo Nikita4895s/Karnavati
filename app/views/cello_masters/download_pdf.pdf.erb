@@ -1,65 +1,66 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<style type="text/css">
-		table {
-			font-size: 40px;
-			text-align: center;
-			width: 100%;
-			top: 50px;
-			bottom: 50px;
-		}
-		td {
-			text-align: center;
-			width: 100%;
-			font-family: 
-		}
-		.data_row{
-			border: solid brown;
-			width: 180mm;
-		  height: 277mm;
-		  overflow: hidden;
-		  page-break-after: always;
-		}
-		input{ 
-			font-size: 40px;
-		}
-	</style>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <style type="text/css">
+        body{
+            font-family: 'Roboto', sans-serif;
+        }
+        table {
+            font-size: 32px;
+            text-align: center;
+            width: 100%;
+        }
+        tr {
+            top: 30px;
+            bottom: 50px;
+        }
+        td {
+            text-align: center;
+            width: 100%;
+        }
+        .data_row{
+            width: 180mm;
+            height: 277mm;
+            overflow: hidden;
+            page-break-after: always;
+        }
+    </style>
 </head>
 <body>
-	<table>
-		<tr>
-			<td>
-				<h1>KARNAVATI MARKETING</h1>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<%= image_tag asset_url('cello_logo.jpg'), style: 'width: 500px; height: 700px;' %>
-			</td>
-		</tr>
-	</table>
-	<br><br>
+    <table>
+        <tr>
+            <td>
+                <h1 style="color:red; padding-bottom: 10px;">KARNAVATI GROUP</h1>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <%= image_tag asset_url('KARNAVATI_LOGO-1.jpg'), style: 'width: 700px; height: 500px;' %>
+            </td>
+        </tr>
+    </table>
+    <br><br>
 <table>
-		<tr>
-			<td>
-				<h2><%= @pdf_name %> :<br> Rs.<%= @start_range %> To  Rs.<%= @end_range %></h2>
-			</td>
-		</tr>
+        <tr>
+            <td>
+                <h2><%= @pdf_name %> :<br> Rs.<%= @start_range %> To  Rs.<%= @end_range %></h2>
+            </td>
+        </tr>
 </table>
 <br><br>
 <table>
-	<% @cello_masters.each do |cello_master|%>
-		<tr class='data_row'>
-			<td>
-				<h2><%= "#{cello_master.company_name} #{cello_master.product_name} #{cello_master.capacity}" %></h2>
-				<h2><%= "MRP: Rs.#{cello_master.mrp}/- Special Nett Rate: #{cello_master.net_rate}"%></h2>
-				<p>
-					<%= image_tag "http://drive.google.com/uc?export=view&id=#{cello_master.link_url&.split('=')&.last}", style: 'width: 500px; height: 300px;' %>
-				</p>
-			</td>
-		</tr>
-	<% end %>
+    <% @cello_masters.each do |cello_master|%>
+        <tr class='data_row'>
+            <td>
+                <h2 style="padding-top: 20px; padding-bottom: 5px;"><%= "#{cello_master.company_name} #{cello_master.product_name} #{cello_master.capacity}" %></h2>
+                <h2 style="padding-top: 20px; padding-bottom: 10px;"><%= "MRP: Rs.#{cello_master.mrp}/- Special Nett Rate: #{cello_master.discount.present? ? (cello_master.drp - (cello_master.drp * cello_master.discount / 100)) : cello_master.drp}"%></h2>
+                <p style='margin: 50px;'>
+                    <%= image_tag "http://drive.google.com/uc?export=view&id=#{cello_master.link_url&.split('=')&.last}", style: 'width: 600px; height: 600px;' %>
+                </p>
+            </td>
+        </tr>
+    <% end %>
 </table>
 
 </body>

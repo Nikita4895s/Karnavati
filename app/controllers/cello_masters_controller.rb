@@ -9,7 +9,7 @@ class CelloMastersController < ApplicationController
   # GET /cello_masters.json
   def index
     @q = CelloMaster.ransack(params[:q])
-    @cello_masters = @q.result
+    @cello_masters = @q.result.order('created_at')
   end
 
   # GET /cello_masters/1
@@ -38,6 +38,35 @@ class CelloMastersController < ApplicationController
         render pdf: "/cello_masters/pdf.html.erb"
      end
     end
+    CelloMaster.update_all(discount: 0.0)
+  end
+
+  def update_discount
+    cello_master = CelloMaster.find_by(id: params['id'])
+    if cello_master.update(discount: params[:discount])
+      data = { rate: (cello_master.drp - (cello_master.drp * params[:discount].to_f / 100))}
+      render json: data
+    end
+  end
+
+  def search_data
+    search_list = {}
+    if params[:company_name].present?
+      search_list['company_name'] = params[:company_name]
+    end
+    if params[:divison].present?
+      search_list['divison'] = params[:divison]
+    end
+    if params[:category].present?
+      search_list['category'] = params[:category]
+    end
+    if params[:product_name].present?
+      search_list['product_name'] = params[:product_name]
+    end
+    if params[:capacity].present?
+      search_list['capacity'] = params[:capacity]
+    end
+    @cello_masters = CelloMaster.where(company_name: params[:company_name])
   end
 
   # POST /cello_masters

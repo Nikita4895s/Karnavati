@@ -27,6 +27,7 @@ gem 'jbuilder', '~> 2.7'
 gem 'sprockets', '~> 3'
 gem 'bootstrap'
 gem 'jquery-rails'
+gem 'activeadmin'
 gem 'jquery-ui-rails'
 gem 'sprockets-rails', :require => 'sprockets/railtie'
 

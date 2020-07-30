@@ -1,0 +1,16 @@
+<% if params[:company_name].present? %>
+  	$('#divison_box').empty().append("<%= j (select_tag 'q[divison_i_cont]', options_for_select(@cello_masters.pluck(:divison).uniq), multiple: false, class: 'divison_select') %>");
+  	$('#category_box').empty().append("<%= j (select_tag 'q[category_i_cont]', options_for_select(@cello_masters.pluck(:category).uniq), multiple: false, class: 'category_select') %>");
+  	$('#product_box').empty().append("<%= j (select_tag 'q[product_name_i_cont]', options_for_select(@cello_masters.pluck(:product_name).uniq), multiple: false, class: 'product_select') %>");
+  	$('#capacity_box').empty().append("<%= j (select_tag 'q[capacity_i_cont]', options_for_select(@cello_masters.pluck(:capacity).uniq), multiple: false, class: 'capacity_select') %>");
+<% elsif params[:divison].present? %>
+	$('#category_box').empty().append("<%= j (select_tag 'q[category_i_cont]', options_for_select(@cello_masters.pluck(:category).uniq), multiple: false, class: 'category_select') %>");
+  	$('#product_box').empty().append("<%= j (select_tag 'q[product_name_i_cont]', options_for_select(@cello_masters.pluck(:product_name).uniq), multiple: false, class: 'product_select') %>");
+  	$('#capacity_box').empty().append("<%= j (select_tag 'q[capacity_i_cont]', options_for_select(@cello_masters.pluck(:capacity).uniq), multiple: false, class: 'capacity_select') %>");
+<% elsif params[:category].present? %>
+  	$('#product_box').empty().append("<%= j (select_tag 'q[product_name_i_cont]', options_for_select(@cello_masters.pluck(:product_name).uniq), multiple: false, class: 'product_select') %>");
+  	$('#capacity_box').empty().append("<%= j (select_tag 'q[capacity_i_cont]', options_for_select(@cello_masters.pluck(:capacity).uniq), multiple: false, class: 'capacity_select') %>");
+<% elsif params[:product_name].present? %>
+  	$('#capacity_box').empty().append("<%= j (select_tag 'q[capacity_i_cont]', options_for_select(@cello_masters.pluck(:capacity).uniq), multiple: false, class: 'capacity_select') %>");
+<% end %>
+search_data();
