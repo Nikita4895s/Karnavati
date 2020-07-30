@@ -14,6 +14,11 @@ $(document).ready(function(){
   $('#inputGroupFile01').change(function(){
     $('label.custom-file-label').text($('#inputGroupFile01').val().split('\\').pop());
   });
+  $('.company_name_select').select2();
+  $('.divison_select').select2();
+  $('.category_select').select2();
+  $('.product_select').select2();
+  $('.capacity_select').select2();
 });
 
 function set_selected_ids() {
