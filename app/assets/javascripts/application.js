@@ -1,9 +1,9 @@
-//= require turbolinks
 //= require jquery
 //= require jquery-ui
+//= require jquery_ujs
 //= require popper
 //= require bootstrap
-//= require rails-ujs
+//= require turbolinks
 //= require_tree .
 
 $(document).ready(function(){
