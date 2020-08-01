@@ -6,7 +6,7 @@
 //= require turbolinks
 //= require_tree .
 
-$(document).ready(function(){
+$(document).on('turbolinks:load', function() {
   set_selected_ids();
   rate_calculation();
   search_data();
