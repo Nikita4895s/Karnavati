@@ -1,6 +1,6 @@
-<%= form_for CelloMaster.new, url: upload_csv_path, method: :post, remote: true do |f| %>
-  <div class="row mt-2">
-    <div class="col-md-6">
+<div class="row mt-2">
+  <div class="col-md-6">
+    <%= form_for CelloMaster.new, url: upload_csv_path, method: :post, remote: true do |f| %>
       <div class="input-group">
         <div class="input-group-prepend">
           <%= f.submit 'Upload', class: 'btn btn-outline-danger', id: 'inputGroupFileAddon01' %>
@@ -10,13 +10,13 @@
           <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
         </div>
       </div>
-    </div>
-    <div class="col-md-2">&nbsp;</div>
-    <div class="col-md-4">
-      <button type="button" class="btn btn-outline-danger mx-2 my-2 my-sm-0" data-toggle="modal" data-target="#download_pdf">Download PDF</button>
-      <%= link_to 'New Cello Master', new_cello_master_path, class: 'btn btn-outline-danger mx-2 my-2 my-sm-0' %></div>
+    <% end %>
   </div>
-<% end %>
+  <div class="col-md-2">&nbsp;</div>
+  <div class="col-md-4">
+    <button type="button" class="btn btn-outline-danger mx-2 my-2 my-sm-0" data-toggle="modal" data-target="#download_pdf">Download PDF</button>
+    <%= link_to 'New Cello Master', new_cello_master_path, class: 'btn btn-outline-danger mx-2 my-2 my-sm-0' %></div>
+</div>
 <div class="modal fade" id="download_pdf" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog trans">
       <div class="modal-content trans" style="width: 25em;" >

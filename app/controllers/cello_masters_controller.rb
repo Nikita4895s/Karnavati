@@ -35,7 +35,8 @@ class CelloMastersController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf do
-        render pdf: "/cello_masters/pdf.html.erb"
+        render pdf: 'cello_product_pdf',
+        background: true
      end
     end
     CelloMaster.update_all(discount: 0.0)
@@ -50,23 +51,42 @@ class CelloMastersController < ApplicationController
   end
 
   def search_data
-    search_list = {}
+    masters = CelloMaster.all
     if params[:company_name].present?
-      search_list['company_name'] = params[:company_name]
+      @cello_masters = masters.where(company_name: params[:company_name])
+      @divison = @cello_masters.pluck(:divison).uniq
+      @category = @cello_masters.pluck(:category).uniq
+      @product_name = @cello_masters.pluck(:product_name).uniq
+      @capacity = @cello_masters.pluck(:capacity).uniq
     end
     if params[:divison].present?
-      search_list['divison'] = params[:divison]
+      @cello_masters = @cello_masters.where(divison: params[:divison])
+      @category = @cello_masters.pluck(:category).uniq
+      @product_name = @cello_masters.pluck(:product_name).uniq
+      @capacity = @cello_masters.pluck(:capacity).uniq
     end
     if params[:category].present?
-      search_list['category'] = params[:category]
+      @cello_masters = @cello_masters.where(category: params[:category])
+      @product_name = @cello_masters.pluck(:product_name).uniq
+      @capacity = @cello_masters.pluck(:capacity).uniq
     end
     if params[:product_name].present?
-      search_list['product_name'] = params[:product_name]
+      @cello_masters = @cello_masters.where(product_name: params[:product_name])
+      @capacity = @cello_masters.pluck(:capacity).uniq
     end
     if params[:capacity].present?
-      search_list['capacity'] = params[:capacity]
+      @cello_masters = @cello_masters.where(capacity: params[:capacity])
     end
-    @cello_masters = CelloMaster.where(company_name: params[:company_name])
+    # @cello_masters = CelloMaster.all
+    # @company_name = params[:company_name] ? params[:company_name] : @cello_masters.pluck(:company_name)
+    # @divison = params[:divison] ? params[:divison] : @cello_masters.where(company_name: @company_name).pluck(:divison)
+    # @category = params[:category] ? params[:category] : @cello_masters.pluck(:category)
+    # @product_name = params[:product_name] ? params[:product_name] : @cello_masters.pluck(:product_name)
+    # @capacity = params[:capacity] ? params[:capacity] : @cello_masters.pluck(:capacity)
+    # @cello_masters = @cello_masters.where(
+    #   'company_name IN (?) and divison IN (?) or category IN (?) or product_name IN (?), capacity IN (?)',
+    #   @company_name, @divison, @category, @product_name, @capacity
+    # )
   end
 
   # POST /cello_masters
@@ -103,19 +123,16 @@ class CelloMastersController < ApplicationController
     csv = File.read(params[:cello_master][:picture])
     @cello_masters = []
     CSV.parse(csv, headers: true).each do |row|
-      cello_master = CelloMaster.new
-      cello_master.company_name = row['company_name']
-      cello_master.divison = row['divison']
-      cello_master.category = row['category']
-      cello_master.product_name = row['product_name']
-      cello_master.capacity = row['capacity']
-      cello_master.mrp = row['mrp']
-      cello_master.drp = row['drp']
-      cello_master.trade_discount = row['trade_discount']
-      cello_master.rate = row['rate']
-      cello_master.scheme = row['scheme']
-      cello_master.net_rate = row['net_rate']
-      cello_master.link_url = "https://drive.google.com/open?id=#{row['product_image']}"
+      cello_master = CelloMaster.find_or_create_by(
+        company_name: row['company_name'],
+        divison: row['divison'],
+        category: row['category'],
+        product_name: row['product_name'],
+        capacity: row['capacity'],
+        mrp: row['mrp'],
+        drp: row['drp'],
+        link_url: "https://drive.google.com/open?id=#{row['product_image']}",
+      )
       # if row['product_image'].present?
       #   file_name = row['product_image'].split('/').last
       #   file_type = "image/#{file_name.split('.').last}"
@@ -126,9 +143,13 @@ class CelloMastersController < ApplicationController
       #     identify: false
       #   )
       # end
-      if cello_master.save
+      if cello_master
         @cello_masters.push(cello_master)
       end
+    end
+    respond_to do |format|
+      format.html { redirect_to cello_masters_url, notice: 'CSV data uploaded successfully.' }
+      format.json { head :no_content }
     end
   end
 
@@ -150,6 +171,6 @@ class CelloMastersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def cello_master_params
-      params.require(:cello_master).permit(:company_name, :divison, :category, :product_name, :capacity, :volume, :mrp, :drp, :trade_discount, :rate, :scheme, :net_rate, :product_image)
+      params.require(:cello_master).permit(:company_name, :divison, :category, :product_name, :capacity, :mrp, :drp, :link_url)
     end
 end

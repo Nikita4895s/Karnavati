@@ -1,8 +1,8 @@
-//= require jquery
-//= require jquery_ujs
+//= require jquery3
 //= require popper
 //= require bootstrap
 //= require turbolinks
+//= require jquery_ujs
 //= require_tree .
 
 $(document).on('turbolinks:load', function() {
@@ -18,8 +18,11 @@ $(document).on('turbolinks:load', function() {
   $('.category_select').select2();
   $('.product_select').select2();
   $('.capacity_select').select2();
+  $(".product_img").on("click", function() {
+    $('#imagepreview').attr('src', $(this).attr('src'));
+    $('#imagemodal').modal('show');
+  });
 });
-
 function set_selected_ids() {
   $('.cello_master_id').change(function(){
     selected_values = [];

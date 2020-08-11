@@ -11,32 +11,32 @@
           <div class="row mt-3">
             <div class="col-md-4"><b>Company:</b></div>
             <div class="col-md-8">
-              <%= f.select :company_name_i_cont, CelloMaster.all.pluck(:company_name).uniq, {}, { multiple: false, class: 'company_name_select', include_blank: true }  %>
+              <%= f.select :company_name_in, CelloMaster.all.pluck(:company_name).uniq, {include_blank: "Select Company"}, { multiple: true, class: 'company_name_select' }  %>
               <%#= f.search_field :company_name_i_cont, class: 'd-none'  %>
             </div>
           </div>
           <div class="row mt-3">
             <div class="col-md-4"><b>Division:</b></div>
             <div class="col-md-8" id='divison_box'>
-              <%= f.select :divison_i_cont, CelloMaster.all.pluck(:divison).uniq, {}, { multiple: false, class: 'divison_select' }  %>
+              <%= f.select :divison_in, CelloMaster.all.pluck(:divison).uniq, {include_blank: "Select Division"}, { multiple: true, class: 'divison_select' }  %>
             </div>
           </div>
           <div class="row mt-3">
             <div class="col-md-4"><b>Category:</b></div>
             <div class="col-md-8" id='category_box'>
-              <%= f.select :category_i_cont, CelloMaster.all.pluck(:category).uniq, {}, { multiple: false, class: 'category_select' }  %>
+              <%= f.select :category_in, CelloMaster.all.pluck(:category).uniq, {include_blank: "Select Category"}, { multiple: true, class: 'category_select' }  %>
             </div>
           </div>
           <div class="row mt-3">
             <div class="col-md-4"><b>Product:</b></div>
             <div class="col-md-8" id='product_box'>
-              <%= f.select :product_name_i_cont, CelloMaster.all.pluck(:product_name).uniq, {}, { multiple: false, class: 'product_select' }  %>
+              <%= f.select :product_name_in, CelloMaster.all.pluck(:product_name).uniq, {include_blank: "Select Product"}, { multiple: true, class: 'product_select' }  %>
             </div>
           </div>
           <div class="row mt-3">
             <div class="col-md-4"><b>Capacity:</b></div>
             <div class="col-md-8" id='capacity_box'>
-              <%= f.select :capacity_i_cont, CelloMaster.all.pluck(:capacity).uniq, {}, { multiple: false, class: 'capacity_select' }  %>
+              <%= f.select :capacity_in, CelloMaster.all.pluck(:capacity).uniq, { include_blank: "Select Capacity" }, { multiple: true, class: 'capacity_select' }  %>
             </div>
           </div>
           <div class="row mt-3">
