@@ -5,14 +5,8 @@ ActiveAdmin.register CelloMaster do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  permit_params :company_name, :divison, :category, :product_name, :capacity, :mrp, :drp, :trade_discount, :rate, :scheme, :net_rate, :link_url
-  #
-  # or
-  #
-  # permit_params do
-  #   permitted = [:company_name, :divison, :category, :product_name, :capacity, :mrp, :drp, :trade_discount, :rate, :scheme, :net_rate, :link_url]
-  #   permitted << :other if params[:action] == 'create' && current_user.admin?
-  #   permitted
-  # end
+  permit_params :company_name, :divison, :category, :product_name,
+    :capacity, :mrp, :drp, :discount, :rate, :link_url, :hsn_no, :product_mode,
+    :arrival_date, :product_code, :gst_per
   
 end

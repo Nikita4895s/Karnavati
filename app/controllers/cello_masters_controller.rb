@@ -32,6 +32,7 @@ class CelloMastersController < ApplicationController
     @pdf_name = params[:pdf_file_name]
     @start_range = params[:from_rs]
     @end_range = params[:to_rs]
+    @remark = parmas[:remark]
     respond_to do |format|
       format.html
       format.pdf do
@@ -51,9 +52,13 @@ class CelloMastersController < ApplicationController
   end
 
   def search_data
-    masters = CelloMaster.all
+    @cello_masters = CelloMaster.all
+    @divison = @cello_masters.pluck(:divison).uniq
+    @category = @cello_masters.pluck(:category).uniq
+    @product_name = @cello_masters.pluck(:product_name).uniq
+    @capacity = @cello_masters.pluck(:capacity).uniq
     if params[:company_name].present?
-      @cello_masters = masters.where(company_name: params[:company_name])
+      @cello_masters = @cello_masters.where(company_name: params[:company_name])
       @divison = @cello_masters.pluck(:divison).uniq
       @category = @cello_masters.pluck(:category).uniq
       @product_name = @cello_masters.pluck(:product_name).uniq
@@ -123,7 +128,9 @@ class CelloMastersController < ApplicationController
     csv = File.read(params[:cello_master][:picture])
     @cello_masters = []
     CSV.parse(csv, headers: true).each do |row|
-      cello_master = CelloMaster.find_or_create_by(
+      cello_master = CelloMaster.find_or_initialize_by(
+        product_code: row['product_code'])
+      cello_master.assign_attributes(
         company_name: row['company_name'],
         divison: row['divison'],
         category: row['category'],
@@ -131,7 +138,14 @@ class CelloMastersController < ApplicationController
         capacity: row['capacity'],
         mrp: row['mrp'],
         drp: row['drp'],
-        link_url: "https://drive.google.com/open?id=#{row['product_image']}",
+        link_url: row['product_name'].include?('https://drive.google.com/open?id=') ?
+        row['product_image'] : "https://drive.google.com/open?id=#{row['product_image']}",
+        hsn_no: row['hsn_no'],
+        product_mode: row['product_mode'],
+        discount: row['discount'],
+        arrival_date: row['arrival_date'],
+        product_code: row['product_code'],
+        gst_per: row['gst_per']
       )
       # if row['product_image'].present?
       #   file_name = row['product_image'].split('/').last
@@ -143,7 +157,7 @@ class CelloMastersController < ApplicationController
       #     identify: false
       #   )
       # end
-      if cello_master
+      if cello_master.save
         @cello_masters.push(cello_master)
       end
     end
@@ -171,6 +185,8 @@ class CelloMastersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def cello_master_params
-      params.require(:cello_master).permit(:company_name, :divison, :category, :product_name, :capacity, :mrp, :drp, :link_url)
+      params.require(:cello_master).permit(:company_name, :divison, :category, :product_name,
+        :capacity, :mrp, :drp, :link_url, :hsn_no, :product_mode, :discount,
+        :arrival_date, :product_code, :gst_per)
     end
 end

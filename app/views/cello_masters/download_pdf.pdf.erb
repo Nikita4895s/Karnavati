@@ -44,6 +44,11 @@
         <div style="text-align: center; font-size: 70px;">
             <p><%= @pdf_name %> <br>Rs.<%= @start_range %> To  Rs.<%= @end_range %></p>
         </div>
+        <% if @remark.present? %>
+            <div style="text-align: center; font-size: 30px; color: red;">
+                <p>Note:<%= @remark %></p>
+            </div>
+        <% end %>
     </div>
     <div id="content">
         <% @cello_masters.each do |cello_master|%>
@@ -51,7 +56,7 @@
                 <p style="padding-top: 70px;"><%= "#{cello_master.company_name} #{cello_master.product_name} #{cello_master.capacity}" %></p>
                 <p>
                     <%= "MRP: Rs.#{cello_master.mrp} /-" %><br>
-                    <%= "Special Nett Rate: #{cello_master.discount.present? ? (cello_master.drp - (cello_master.drp * cello_master.discount / 100)) : cello_master.drp} /-"%>
+                    <%= "Final Rate: #{cello_master.discount.present? ? (cello_master.drp - (cello_master.drp * cello_master.discount / 100)) : cello_master.drp} /-"%>
                 </p>
                 <p style='margin: 50px; padding-top: 20px;'>
                     <%= image_tag "http://drive.google.com/uc?export=view&id=#{cello_master.link_url&.split('=')&.last}", style: 'width: 650px; height: 650px;' %>

@@ -1,6 +1,9 @@
 $('#divison_box').empty().append(
-  "<%= j (select_tag 'q[divison_in]', options_for_select(@divison, selected: params[:divison]), include_blank: 'Select Divison', multiple: true, class: 'divison_select') %>");
-$('#category_box').empty().append("<%= j (select_tag 'q[category_in]', options_for_select(@category, selected: params[:category]), include_blank: 'Select Category', multiple: true, class: 'category_select') %>");
-$('#product_box').empty().append("<%= j (select_tag 'q[product_name_in]', options_for_select(@product_name, selected: params[:product_name]), include_blank: 'Select Product', multiple: true, class: 'product_select') %>");
-$('#capacity_box').empty().append("<%= j (select_tag 'q[capacity_in]', options_for_select(@capacity, selected: params[:capacity]), include_blank: 'Select Capacity', multiple: true, class: 'capacity_select') %>");
+  "<%= j (select_tag 'q[divison_in]', options_for_select(@divison, selected: params[:divison]), multiple: true, class: 'divison_select') %>");
+$('#category_box').empty().append(
+  "<%= j (select_tag 'q[category_in]', options_for_select(@category, selected: params[:category]), multiple: true, class: 'category_select') %>");
+$('#product_box').empty().append(
+  "<%= j (select_tag 'q[product_name_in]', options_for_select(@product_name, selected: params[:product_name]), multiple: true, class: 'product_select') %>");
+$('#capacity_box').empty().append(
+  "<%= j (select_tag 'q[capacity_in]', options_for_select(@capacity, selected: params[:capacity]), multiple: true, class: 'capacity_select') %>");
 search_data();

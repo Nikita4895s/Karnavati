@@ -46,6 +46,11 @@
                     <%= text_field_tag :to_rs, '', placeholder: 'Range end', class: 'password optional form-control input' %>
                   </div>
                 </div>
+                <div class="inputBox my-4">
+                  <div class="input password optional user_password">
+                    <%= text_area_tag :remark, '', placeholder: 'Add remark', class: 'password optional form-control input' %>
+                  </div>
+                </div>
                 <input type="submit" name="commit" value="Download PDF" class="btn button btn btn-primary my-3 w-100 submit_btn" id='download_pdf_submit' data-disable-with="Download PDF">
               <% end %>
             </div>
