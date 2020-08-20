@@ -32,7 +32,7 @@ class CelloMastersController < ApplicationController
     @pdf_name = params[:pdf_file_name]
     @start_range = params[:from_rs]
     @end_range = params[:to_rs]
-    @remark = parmas[:remark]
+    @remark = params[:remark]
     respond_to do |format|
       format.html
       format.pdf do
