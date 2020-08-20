@@ -2,7 +2,6 @@
 //= require popper
 //= require bootstrap
 //= require turbolinks
-//= require multi_select
 //= require moment
 //= require daterangepicker
 //= require jquery_ujs
