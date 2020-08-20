@@ -19,9 +19,6 @@ $(document).on('turbolinks:load', function() {
     $('#imagepreview').attr('src', $(this).attr('src'));
     $('#imagemodal').modal('show');
   });
-  $('.multiselect-ui').multiselect({
-      includeSelectAllOption: true
-  });
   $('.select_checkbox').change(function(){
     if ($(this).is(":checked")){
       $('.cello_master_id').prop("checked", true);
