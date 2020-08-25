@@ -38,6 +38,7 @@ gem "aws-sdk-s3", require: false
 gem 'mini_magick', '~> 4.8'
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
+gem 'twilio-ruby', '~> 5.40.0'
 
 gem 'figaro'
 group :development do

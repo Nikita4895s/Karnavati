@@ -78,7 +78,7 @@
               <label for="amount"><b>Mode:</b></label>
             </div>
             <div class="col-md-8">
-              <%= f.select :product_mode_i_cont, CelloMaster.all.pluck(:product_mode).uniq, {}, { multiple: false, class: 'product_mode_select' }  %>
+              <%= f.select :product_mode_eq, CelloMaster.product_modes, {include_blank: true}, { multiple: false, class: 'product_mode_select' }  %>
             </div>
           </div>
         </div>

@@ -130,6 +130,7 @@ class CelloMastersController < ApplicationController
     CSV.parse(csv, headers: true).each do |row|
       cello_master = CelloMaster.find_or_initialize_by(
         product_code: row['product_code'])
+      product_image = row['product_image']&.gsub('https://drive.google.com/file/d/', '')&.gsub('/view?usp=sharing', '')
       cello_master.assign_attributes(
         company_name: row['company_name'],
         divison: row['divison'],
@@ -138,8 +139,8 @@ class CelloMastersController < ApplicationController
         capacity: row['capacity'],
         mrp: row['mrp'],
         drp: row['drp'],
-        link_url: row['product_name'].include?('https://drive.google.com/open?id=') ?
-        row['product_image'] : "https://drive.google.com/open?id=#{row['product_image']}",
+        link_url: product_image&.include?('https://drive.google.com/open?id=') ?
+        product_image : "https://drive.google.com/open?id=#{product_image}",
         hsn_no: row['hsn_no'],
         product_mode: row['product_mode'],
         discount: row['discount'],
