@@ -1,5 +1,20 @@
 <div class="container-fluid">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   <%= render partial: 'upload_csv_form' %>
+  <style type="text/css">
+    .clear{
+      top: 7px;
+      right: 25px;
+      clear: none;
+      position: absolute;
+      width: 15px;
+      height: 100%;
+      cursor: pointer;
+    }
+    #reportrange{
+      padding-right: 25px !important;
+    }
+  </style>
   <div class="row">
     <div class="col-sm-3 main">
       <%= search_form_for @q, remote: true do |f| %>
@@ -17,14 +32,14 @@
           </div>
           <div class="row mt-3">
             <div class="col-md-4"><b>Category:</b></div>
-            <div class="col-md-8" id='divison_box'>
-              <%= f.select :divison_in, CelloMaster.all.pluck(:divison).uniq, {}, { multiple: true, class: 'divison_select' }  %>
+            <div class="col-md-8" id='category_box'>
+              <%= f.select :category_in, CelloMaster.all.pluck(:category).uniq, {}, { multiple: true, class: 'category_select' }  %>
             </div>
           </div>
           <div class="row mt-3">
             <div class="col-md-4"><b>Sub Category:</b></div>
-            <div class="col-md-8" id='category_box'>
-              <%= f.select :category_in, CelloMaster.all.pluck(:category).uniq, {}, { multiple: true, class: 'category_select' }  %>
+            <div class="col-md-8" id='divison_box'>
+              <%= f.select :divison_in, CelloMaster.all.pluck(:divison).uniq, {}, { multiple: true, class: 'divison_select' }  %>
             </div>
           </div>
           <div class="row mt-3">
@@ -71,6 +86,7 @@
                   <i class="fa fa-calendar"></i>&nbsp;
                   <span></span> <i class="fa fa-caret-down"></i>
               </div>
+              <span class='clear'><i class="fa fa-times" aria-hidden="true"></i></span>
             </div>
           </div>
           <div class="row mt-3">
@@ -97,29 +113,38 @@
 <script>
 $(function() {
 
-    var start = moment().subtract(29, 'days');
-    var end = moment();
+    rangepicker();
 
-    function cb(start, end) {
-      $('#reportrange span').html(start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY'));
-      $('#q_arrival_date_gteq').val(start.format('YYYY-MM-DD'));
-      $('#q_arrival_date_lteq').val(end.format('YYYY-MM-DD'));
-    }
-
-    $('#reportrange').daterangepicker({
-        startDate: start,
-        endDate: end,
-        ranges: {
-           'Today': [moment(), moment()],
-           'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-           'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-           'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-           'This Month': [moment().startOf('month'), moment().endOf('month')],
-           'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-        }
-    }, cb);
-
-    cb(start, end);
+    $('.clear').click(function(){
+      $('#reportrange').empty().append('<i class="fa fa-calendar"></i>&nbsp;<span></span> <i class="fa fa-caret-down"></i>');
+      $('#q_arrival_date_gteq').val('');
+      $('#q_arrival_date_lteq').val('');
+      rangepicker();
+    })
 
 });
+function rangepicker(){
+  var start = moment().subtract(29, 'days');
+  var end = moment();
+
+  function cb(start, end) {
+    $('#reportrange span').html(start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY'));
+    $('#q_arrival_date_gteq').val(start.format('YYYY-MM-DD'));
+    $('#q_arrival_date_lteq').val(end.format('YYYY-MM-DD'));
+  }
+
+  $('#reportrange').daterangepicker({
+      // startDate: start,
+      // endDate: end,
+      ranges: {
+         'Today': [moment(), moment()],
+         'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+         'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+         'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+         'This Month': [moment().startOf('month'), moment().endOf('month')],
+         'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+         'Last Year': [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')]
+      }
+  }, cb);
+}
 </script>

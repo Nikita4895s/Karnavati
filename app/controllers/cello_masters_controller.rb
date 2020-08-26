@@ -40,13 +40,14 @@ class CelloMastersController < ApplicationController
         background: true
      end
     end
-    CelloMaster.update_all(discount: 0.0)
+    CelloMaster.where('discount != ?',0.0).each {|cm| cm.update(discount: 0.0, rate: cm.drp)}
   end
 
   def update_discount
     cello_master = CelloMaster.find_by(id: params['id'])
-    if cello_master.update(discount: params[:discount])
-      data = { rate: (cello_master.drp - (cello_master.drp * params[:discount].to_f / 100))}
+    rate = (cello_master.drp - (cello_master.drp * params[:discount].to_f / 100))
+    if cello_master.update(discount: params[:discount], rate: rate)
+      data = { rate: rate}
       render json: data
     end
   end
@@ -128,38 +129,44 @@ class CelloMastersController < ApplicationController
     csv = File.read(params[:cello_master][:picture])
     @cello_masters = []
     CSV.parse(csv, headers: true).each do |row|
-      cello_master = CelloMaster.find_or_initialize_by(
-        product_code: row['product_code'])
-      product_image = row['product_image']&.gsub('https://drive.google.com/file/d/', '')&.gsub('/view?usp=sharing', '')
-      cello_master.assign_attributes(
-        company_name: row['company_name'],
-        divison: row['divison'],
-        category: row['category'],
-        product_name: row['product_name'],
-        capacity: row['capacity'],
-        mrp: row['mrp'],
-        drp: row['drp'],
-        link_url: product_image&.include?('https://drive.google.com/open?id=') ?
-        product_image : "https://drive.google.com/open?id=#{product_image}",
-        hsn_no: row['hsn_no'],
-        product_mode: row['product_mode'],
-        discount: row['discount'],
-        arrival_date: row['arrival_date'],
-        product_code: row['product_code'],
-        gst_per: row['gst_per']
-      )
-      # if row['product_image'].present?
-      #   file_name = row['product_image'].split('/').last
-      #   file_type = "image/#{file_name.split('.').last}"
-      #   cello_master.product_image.attach(
-      #     io: File.open(row['product_image']),
-      #     filename: file_name,
-      #     content_type: file_type,
-      #     identify: false
-      #   )
-      # end
-      if cello_master.save
-        @cello_masters.push(cello_master)
+      if row.to_hash.values.compact.present?
+        cello_master = CelloMaster.find_or_initialize_by(
+          product_code: row['product_code'])
+        product_image = row['product_image']&.gsub('https://drive.google.com/file/d/', '')&.gsub('/view?usp=sharing', '')
+        rate = row['drp'].present? && row['discount'].present? ?
+                (row['drp'] - (row['drp'] * row['discount'].to_f / 100)) :
+                row['drp']
+        cello_master.assign_attributes(
+          company_name: row['company_name'],
+          divison: row['divison'],
+          category: row['category'],
+          product_name: row['product_name'],
+          capacity: row['capacity'],
+          mrp: row['mrp'],
+          drp: row['drp'],
+          link_url: product_image&.include?('https://drive.google.com/open?id=') ?
+          product_image : "https://drive.google.com/open?id=#{product_image}",
+          hsn_no: row['hsn_no'],
+          product_mode: row['product_mode'],
+          discount: row['discount'],
+          arrival_date: row['arrival_date'],
+          product_code: row['product_code'],
+          gst_per: row['gst_per'],
+          rate: rate
+        )
+        # if row['product_image'].present?
+        #   file_name = row['product_image'].split('/').last
+        #   file_type = "image/#{file_name.split('.').last}"
+        #   cello_master.product_image.attach(
+        #     io: File.open(row['product_image']),
+        #     filename: file_name,
+        #     content_type: file_type,
+        #     identify: false
+        #   )
+        # end
+        if cello_master.save
+          @cello_masters.push(cello_master)
+        end
       end
     end
     respond_to do |format|
