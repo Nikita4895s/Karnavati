@@ -3,7 +3,7 @@
     <div class="card-header main_1">
       <label class="container">
         <div>
-          <h6 class="ml-2 mrp" style="font-size: 20px;"><%= cello_master.product_name.titleize %></h6>
+          <h6 class="ml-2 mrp" style="font-size: 20px;"><%= "#{cello_master&.product_name&.titleize} #{cello_master.capacity}" %></h6>
         </div>
         <%= check_box_tag :cello_master_id, cello_master.id, false, class: 'cello_master_id' %>
         <span class="checkmark"></span>
