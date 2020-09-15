@@ -7,6 +7,9 @@
         </div>
         <%= check_box_tag :cello_master_id, cello_master.id, false, class: 'cello_master_id' %>
         <span class="checkmark"></span>
+        <%= link_to download_image_path(id: cello_master.id), class: 'downloadImg', target: "_blank" do %>
+          <i class="fa fa-download" aria-hidden="true" style="position: absolute;right: 0;top: 5px;"></i>
+        <% end %>
       </label>
     </div>
     <div class="card-body">

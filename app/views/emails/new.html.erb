@@ -1,0 +1,26 @@
+<%= form_with(url: send_email_path, local: true) do |form| %>
+  <%= hidden_field_tag :pdf_url, @url %>
+  <div class="field">
+    <%= form.label :to_email %>
+    <%= form.text_field :to_email %>
+  </div>
+
+  <div class="field">
+    <%= form.label :cc_emails %>
+    <%= form.text_field :cc_emails %>
+  </div>
+
+  <div class="field">
+    <%= form.label :subject %>
+    <%= form.text_field :subject %>
+  </div>
+
+  <div class="field">
+    <%= form.label :content %>
+    <%= form.text_field :content %>
+  </div>
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+  <iframe src="<%= asset_path('/'+ @url.split('/').last ) %>" height="500px" width="50%"></iframe>
+<% end %>

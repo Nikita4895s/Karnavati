@@ -2,6 +2,10 @@ $('#cello_master_list').empty();
 <% @cello_masters.each do |cello_master| %>
   $('#cello_master_list').append("<%= j(render partial: 'cello_master_row', locals: {cello_master: cello_master}) %>");
 <% end %>
+$(".product_img").on("click", function() {
+  $('#imagepreview').attr('src', $(this).attr('src'));
+  $('#imagemodal').modal('show');
+});
 set_selected_ids();
 rate_calculation();
 search_data();

@@ -33,14 +33,63 @@ class CelloMastersController < ApplicationController
     @start_range = params[:from_rs]
     @end_range = params[:to_rs]
     @remark = params[:remark]
-    respond_to do |format|
-      format.html
-      format.pdf do
-        render pdf: 'cello_product_pdf',
-        background: true
-     end
+    if params[:send_email].present? && params[:send_email].eql?('true')
+      pdf = WickedPdf.new.pdf_from_string(
+        render_to_string('cello_masters/generate_pdf.html.erb', layout: nil)
+      )
+      save_path = Rails.root.join('public',"#{@pdf_name.parameterize.underscore}.pdf")
+      File.open(save_path, 'wb') do |file|
+        file << pdf
+      end
+      redirect_to new_email_path(url: save_path)
+    else
+      respond_to do |format|
+        format.html
+        format.pdf do
+          render pdf: 'cello_product_pdf',
+          background: true
+       end
+      end
+      CelloMaster.where('discount != ?',0.0).each {|cm| cm.update(discount: 0.0, rate: cm.drp)}
     end
-    CelloMaster.where('discount != ?',0.0).each {|cm| cm.update(discount: 0.0, rate: cm.drp)}
+  end
+
+  def download_image
+    @cello_master = CelloMaster.find_by(id: params[:id])
+    url = @cello_master.link_url.split('=').last
+    image = MiniMagick::Image.open("http://drive.google.com/uc?export=view&id=#{url}")
+    height = image.height
+    width = image.width
+    if height == width
+      @height = 800
+      pdf = WickedPdf.new.pdf_from_string(
+        render_to_string('cello_masters/generate_image.html.erb', layout: nil)
+      )
+    elsif height < width
+      @height = 600
+      pdf = WickedPdf.new.pdf_from_string(
+        render_to_string('cello_masters/generate_image.html.erb', layout: nil),
+        page_size: 'Letter'
+        # page_height: 148, page_width: 210
+      )
+    else
+      @height = 1200
+      pdf = WickedPdf.new.pdf_from_string(
+        render_to_string('cello_masters/generate_image.html.erb', layout: nil),
+        page_size: 'A3'
+        # page_height: 148, page_width: 210
+      )
+    end
+    save_path = Rails.root.join('public','filename.pdf')
+    File.open(save_path, 'wb') do |file|
+      file << pdf
+    end
+    require 'rmagick'
+    new_pdf = Magick::ImageList.new(save_path)
+    new_pdf_path = "#{@cello_master.product_name.parameterize.underscore}.jpg"
+    new_pdf.write(new_pdf_path)
+    send_file(new_pdf_path)
+    File.delete(save_path)
   end
 
   def update_discount

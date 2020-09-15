@@ -30,6 +30,7 @@ gem 'jquery-rails'
 gem 'activeadmin'
 gem 'jquery-ui-rails'
 gem 'sprockets-rails', :require => 'sprockets/railtie'
+gem "letter_opener", :group => :development
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
@@ -76,4 +77,6 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'ransack'
 gem 'momentjs-rails'
+gem 'rmagick'
+gem 'wkhtmltoimage-binary', '~> 0.11.0.1.1'
 gem 'bootstrap-daterangepicker-rails'

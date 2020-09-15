@@ -1,0 +1,32 @@
+<html><head>
+<style type="text/css">
+    body{
+        background-color: white;
+        font-family: 'Baloo Tamma 2', cursive;
+        color: black;
+    }
+    .rate{
+      line-height: 10px;
+    }
+    .rate::before{
+      content: "\a";
+      white-space: pre;
+    }
+</style>
+</head>
+<body>
+    <div id="header">
+        <div class='break main_div' style="text-align: center; font-size: 55px;">
+            <p style="padding-top: 70px;line-height: 55px;font-size: 55px;width: 100%; max-height: 150px;height: 150px;">
+                <%= "#{@cello_master.company_name} #{@cello_master.product_name} #{@cello_master.capacity}" %><br>
+                <span><%= @cello_master.divison %></span>
+            </p>
+            <p style="line-height: 10px !important;max-height: 10px; height: 10px;"><%= "MRP: Rs.#{@cello_master.mrp.round} /-" %></p>
+            <p class="rate" style="padding-top: 20px;max-height: 10px; height: 10px;"><%= "Final Rate: #{@cello_master.rate.round} /-"%></p>
+            <p style='margin: 20px; padding-top: 20px;'>
+                <%= image_tag "http://drive.google.com/uc?export=view&id=#{@cello_master.link_url&.split('=')&.last}", style: "width:100%;height: #{@height}px;" %>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
