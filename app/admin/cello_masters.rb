@@ -5,6 +5,7 @@ ActiveAdmin.register CelloMaster do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
+  config.paginate = false
   permit_params :company_name, :divison, :category, :product_name,
     :capacity, :mrp, :drp, :discount, :rate, :link_url, :hsn_no, :product_mode,
     :arrival_date, :product_code, :gst_per
