@@ -214,10 +214,10 @@ class CelloMastersController < ApplicationController
           #     identify: false
           #   )
           # end
-          if ((cello_master.new_record? || (!cello_master.new_record? && (cello_master.changes.include?('link_url') || cello_master.product_image_url.nil?)))) && product_image.present?
-            image_link = Cloudinary::Uploader.upload("https://drive.google.com/uc?export=view&id=#{product_image}")
-            cello_master.remote_product_image_url = image_link['url']
-          end
+          # if ((cello_master.new_record? || (!cello_master.new_record? && (cello_master.changes.include?('link_url') || cello_master.product_image_url.nil?)))) && product_image.present?
+          #   image_link = Cloudinary::Uploader.upload("https://drive.google.com/uc?export=view&id=#{product_image}")
+          #   cello_master.remote_product_image_url = image_link['url']
+          # end
           if cello_master.save
             @cello_masters.push(cello_master)
           end
