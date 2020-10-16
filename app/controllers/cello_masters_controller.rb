@@ -148,7 +148,6 @@ class CelloMastersController < ApplicationController
   # POST /cello_masters.json
   def create
     @cello_master = CelloMaster.new(cello_master_params)
-
     respond_to do |format|
       if @cello_master.save
         format.html { redirect_to @cello_master, notice: 'Cello master was successfully created.' }
@@ -178,44 +177,53 @@ class CelloMastersController < ApplicationController
     csv = File.read(params[:cello_master][:picture])
     @cello_masters = []
     CSV.parse(csv, headers: true).each do |row|
-      if row.to_hash.values.compact.present?
-        cello_master = CelloMaster.find_or_initialize_by(
-          product_code: row['product_code'])
-        product_image = row['product_image']&.gsub('https://drive.google.com/file/d/', '')&.gsub('/view?usp=sharing', '')
-        rate = row['drp'].present? && row['discount'].present? ?
-                (row['drp'] - (row['drp'] * row['discount'].to_f / 100)) :
-                row['drp']
-        cello_master.assign_attributes(
-          company_name: row['company_name'],
-          divison: row['divison'],
-          category: row['category'],
-          product_name: row['product_name'],
-          capacity: row['capacity'],
-          mrp: row['mrp'],
-          drp: row['drp'],
-          link_url: product_image&.include?('https://drive.google.com/open?id=') ?
-          product_image : "https://drive.google.com/open?id=#{product_image}",
-          hsn_no: row['hsn_no'],
-          product_mode: row['product_mode'],
-          discount: row['discount'],
-          arrival_date: row['arrival_date'],
-          product_code: row['product_code'],
-          gst_per: row['gst_per'],
-          rate: rate
-        )
-        # if row['product_image'].present?
-        #   file_name = row['product_image'].split('/').last
-        #   file_type = "image/#{file_name.split('.').last}"
-        #   cello_master.product_image.attach(
-        #     io: File.open(row['product_image']),
-        #     filename: file_name,
-        #     content_type: file_type,
-        #     identify: false
-        #   )
-        # end
-        if cello_master.save
-          @cello_masters.push(cello_master)
+      begin
+        if row.to_hash.values.compact.present?
+          cello_master = CelloMaster.find_or_initialize_by(
+            product_code: row['product_code'])
+          product_image = row['product_image']&.gsub('https://drive.google.com/file/d/', '')&.gsub('/view?usp=sharing', '')&.gsub('https://drive.google.com/open?id=', '')
+          rate = row['drp'].present? && row['discount'].present? ?
+                  (row['drp'] - (row['drp'] * row['discount'].to_f / 100)) :
+                  row['drp']
+            # link_url: product_image&.include?('https://drive.google.com/open?id=') ?
+            # product_image : "https://drive.google.com/open?id=#{product_image}",
+          cello_master.assign_attributes(
+            company_name: row['company_name'],
+            divison: row['divison'],
+            category: row['category'],
+            product_name: row['product_name'],
+            capacity: row['capacity'],
+            mrp: row['mrp'],
+            drp: row['drp'],
+            hsn_no: row['hsn_no'],
+            product_mode: row['product_mode'],
+            discount: row['discount'],
+            link_url: product_image,
+            arrival_date: row['arrival_date'],
+            product_code: row['product_code'],
+            gst_per: row['gst_per'],
+            rate: rate
+          )
+          # if row['product_image'].present?
+          #   file_name = row['product_image'].split('/').last
+          #   file_type = "image/#{file_name.split('.').last}"
+          #   cello_master.product_image.attach(
+          #     io: File.open(row['product_image']),
+          #     filename: file_name,
+          #     content_type: file_type,
+          #     identify: false
+          #   )
+          # end
+          if ((cello_master.new_record? || (!cello_master.new_record? && (cello_master.changes.include?('link_url') || cello_master.product_image_url.nil?)))) && product_image.present?
+            image_link = Cloudinary::Uploader.upload("https://drive.google.com/uc?export=view&id=#{product_image}")
+            cello_master.remote_product_image_url = image_link['url']
+          end
+          if cello_master.save
+            @cello_masters.push(cello_master)
+          end
         end
+      rescue Exception => e
+        @cello_masters.push(row)
       end
     end
     respond_to do |format|
@@ -243,7 +251,7 @@ class CelloMastersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def cello_master_params
       params.require(:cello_master).permit(:company_name, :divison, :category, :product_name,
-        :capacity, :mrp, :drp, :link_url, :hsn_no, :product_mode, :discount,
+        :capacity, :mrp, :drp, :link_url, :hsn_no, :product_mode, :discount, :product_image,
         :arrival_date, :product_code, :gst_per)
     end
 end

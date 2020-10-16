@@ -1,0 +1,9 @@
+development:
+  cloud_name: "dhiknksoc"
+  api_key: "414533369289258"
+  api_secret: "_j1qkHkKWv2GYh_BklDVqyg8pco"
+
+production:
+  cloud_name: "dllvvw3bj"
+  api_key: "437196489446613"
+  api_secret: "JtTbSidnonGRmsHrsvNQXBipiNE"

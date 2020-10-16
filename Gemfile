@@ -31,6 +31,8 @@ gem 'activeadmin'
 gem 'jquery-ui-rails'
 gem 'sprockets-rails', :require => 'sprockets/railtie'
 gem "letter_opener", :group => :development
+gem 'carrierwave'
+gem 'cloudinary'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false

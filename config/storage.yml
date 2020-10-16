@@ -14,6 +14,12 @@ amazon:
   region: 'us-east-2'
   bucket: 'karnavatimarketing'
 
+cloudinary:
+  cloud_name: "dllvvw3bj"
+  api_key: "437196489446613"
+  api_secret: "JtTbSidnonGRmsHrsvNQXBipiNE"
+  cdn_subdomain: true
+
 # Remember not to checkin your GCS keyfile to a repository
 # google:
 #   service: GCS

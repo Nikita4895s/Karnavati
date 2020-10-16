@@ -68,14 +68,18 @@
     <div id="content">
         <% @cello_masters.each do |cello_master|%>
             <div class='break main_div' style="text-align: center; font-size: 55px;">
-                <p style="padding-top: 70px;line-height: 55px;"><%= "#{cello_master.company_name} #{cello_master.product_name} #{cello_master.capacity}" %><br>
+                <p style="padding-top: 70px;line-height: 55px; padding-left: 20px; padding-right: 20px;"><%= "#{cello_master.company_name} #{cello_master.product_name} #{cello_master.capacity}" %><br>
                     <span><%= cello_master.divison %></span>
                 </p>
                 <p style="line-height: 10px !important;"><%= "MRP: Rs.#{cello_master.mrp.round} /-" %></p>
                 <p class="rate"><%= "Final Rate: #{cello_master.rate.round} /-"%></p>
                 <p class="gst"><%= "(include #{cello_master.gst_per.round}% GST)" %></p>
                 <p style='margin: 50px; padding-top: 20px;'>
-                    <%= image_tag "http://drive.google.com/uc?export=view&id=#{cello_master.link_url&.split('=')&.last}", style: 'width: 700px; height: 700px;' %>
+                    <% if cello_master.product_image.present? %>
+                        <%= image_tag cello_master.product_image_url, style: 'width: 700px; height: 700px;' %>
+                    <% else %>
+                        <%= image_tag "http://drive.google.com/uc?export=view&id=#{cello_master.link_url&.split('=')&.last}", style: 'width: 700px; height: 700px;' %>
+                    <% end %>
                 </p>
             </div>
         <% end %>
