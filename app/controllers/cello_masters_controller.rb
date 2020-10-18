@@ -229,12 +229,12 @@ class CelloMastersController < ApplicationController
           begin
             image_file = MiniMagick::Image.open(drive_link)
             image_path = Rails.root.join('public/product_images/' + "#{product_image}.#{image_file&.type&.downcase}")
+            download_file = open(drive_link)
           rescue Exception => e
             image_path = Rails.root.join('public/product_images/' + "#{product_image}.jpeg")
-            @cello_masters.push(row)
+            download_file = open(drive_link)
           end
             file = File.new(image_path, 'wb')
-            download_file = open(drive_link)
             IO.copy_stream(download_file, file)
             cello_master.product_image = "#{product_image}.#{image_file&.type&.downcase || 'jpeg'}"
           # image_link = Cloudinary::Uploader.upload("https://drive.google.com/uc?export=view&id=#{product_image}")
