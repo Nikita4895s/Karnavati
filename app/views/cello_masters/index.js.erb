@@ -1,5 +1,6 @@
 <% if params[:q].present? %>
   $('#cello_master_list').empty();
+  $('.pagination').remove();
 <% else %>
   <% if @cello_masters.next_page %>
     $('.pagination').replaceWith('<%= j will_paginate @cello_masters %>');
