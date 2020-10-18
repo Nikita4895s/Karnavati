@@ -8,8 +8,13 @@ class CelloMastersController < ApplicationController
   # GET /cello_masters
   # GET /cello_masters.json
   def index
-    @q = CelloMaster.ransack(params[:q])
-    @cello_masters = @q.result.order('created_at')
+    if params[:q].present?
+      @q = CelloMaster.ransack(params[:q])
+      @cello_masters = @q.result.order('created_at')
+    else
+      @q = CelloMaster.ransack(params[:q])
+      @cello_masters = CelloMaster.all.order('created_at').paginate(page: params[:page], per_page: 15)
+    end
   end
 
   # GET /cello_masters/1
@@ -57,7 +62,8 @@ class CelloMastersController < ApplicationController
   def download_image
     @cello_master = CelloMaster.find_by(id: params[:id])
     url = @cello_master.link_url.split('=').last
-    image = MiniMagick::Image.open("http://drive.google.com/uc?export=view&id=#{url}")
+    # image = MiniMagick::Image.open("http://drive.google.com/uc?export=view&id=#{url}")
+    image = MiniMagick::Image.open(Rails.root.join('public/product_images/' + @cello_master.product_image))
     height = image.height
     width = image.width
     if height == width
@@ -177,53 +183,61 @@ class CelloMastersController < ApplicationController
     csv = File.read(params[:cello_master][:picture])
     @cello_masters = []
     CSV.parse(csv, headers: true).each do |row|
-      begin
-        if row.to_hash.values.compact.present?
-          cello_master = CelloMaster.find_or_initialize_by(
-            product_code: row['product_code'])
-          product_image = row['product_image']&.gsub('https://drive.google.com/file/d/', '')&.gsub('/view?usp=sharing', '')&.gsub('https://drive.google.com/open?id=', '')
-          rate = row['drp'].present? && row['discount'].present? ?
-                  (row['drp'] - (row['drp'] * row['discount'].to_f / 100)) :
-                  row['drp']
-            # link_url: product_image&.include?('https://drive.google.com/open?id=') ?
-            # product_image : "https://drive.google.com/open?id=#{product_image}",
-          cello_master.assign_attributes(
-            company_name: row['company_name'],
-            divison: row['divison'],
-            category: row['category'],
-            product_name: row['product_name'],
-            capacity: row['capacity'],
-            mrp: row['mrp'],
-            drp: row['drp'],
-            hsn_no: row['hsn_no'],
-            product_mode: row['product_mode'],
-            discount: row['discount'],
-            link_url: product_image,
-            arrival_date: row['arrival_date'],
-            product_code: row['product_code'],
-            gst_per: row['gst_per'],
-            rate: rate
-          )
-          # if row['product_image'].present?
-          #   file_name = row['product_image'].split('/').last
-          #   file_type = "image/#{file_name.split('.').last}"
-          #   cello_master.product_image.attach(
-          #     io: File.open(row['product_image']),
-          #     filename: file_name,
-          #     content_type: file_type,
-          #     identify: false
-          #   )
-          # end
-          # if ((cello_master.new_record? || (!cello_master.new_record? && (cello_master.changes.include?('link_url') || cello_master.product_image_url.nil?)))) && product_image.present?
-          #   image_link = Cloudinary::Uploader.upload("https://drive.google.com/uc?export=view&id=#{product_image}")
-          #   cello_master.remote_product_image_url = image_link['url']
-          # end
-          if cello_master.save
-            @cello_masters.push(cello_master)
+      if row.to_hash.values.compact.present?
+        cello_master = CelloMaster.find_or_initialize_by(
+          product_code: row['product_code'])
+        product_image = row['product_image']&.gsub('https://drive.google.com/file/d/', '')&.gsub('/view?usp=sharing', '')&.gsub('https://drive.google.com/open?id=', '')
+        rate = row['drp'].present? && row['discount'].present? ?
+                (row['drp'] - (row['drp'] * row['discount'].to_f / 100)) :
+                row['drp']
+          # link_url: product_image&.include?('https://drive.google.com/open?id=') ?
+          # product_image : "https://drive.google.com/open?id=#{product_image}",
+        cello_master.assign_attributes(
+          company_name: row['company_name']&.upcase&.strip,
+          divison: row['divison']&.upcase&.strip,
+          category: row['category']&.upcase&.strip,
+          product_name: row['product_name']&.upcase&.strip,
+          capacity: row['capacity']&.upcase&.strip,
+          mrp: row['mrp'],
+          drp: row['drp'],
+          hsn_no: row['hsn_no'],
+          product_mode: row['product_mode']&.upcase&.strip,
+          discount: row['discount'],
+          link_url: product_image,
+          arrival_date: row['arrival_date'],
+          product_code: row['product_code']&.upcase&.strip,
+          gst_per: row['gst_per'],
+          rate: rate
+        )
+        # if row['product_image'].present?
+        #   file_name = row['product_image'].split('/').last
+        #   file_type = "image/#{file_name.split('.').last}"
+        #   cello_master.product_image.attach(
+        #     io: File.open(row['product_image']),
+        #     filename: file_name,
+        #     content_type: file_type,
+        #     identify: false
+        #   )
+        # end
+        if ((cello_master.new_record? || (!cello_master.new_record? && (cello_master.changes.include?('link_url') || cello_master.product_image.nil?)))) && product_image.present?
+            drive_link = "https://drive.google.com/uc?export=view&id=#{product_image}"
+          begin
+            image_file = MiniMagick::Image.open(drive_link)
+            image_path = Rails.root.join('public/product_images/' + "#{product_image}.#{image_file&.type&.downcase}")
+          rescue Exception => e
+            image_path = Rails.root.join('public/product_images/' + "#{product_image}.jpeg")
+            @cello_masters.push(row)
           end
+            file = File.new(image_path, 'wb')
+            download_file = open(drive_link)
+            IO.copy_stream(download_file, file)
+            cello_master.product_image = "#{product_image}.#{image_file&.type&.downcase || 'jpeg'}"
+          # image_link = Cloudinary::Uploader.upload("https://drive.google.com/uc?export=view&id=#{product_image}")
+          # cello_master.remote_product_image_url = image_link['url']
         end
-      rescue Exception => e
-        @cello_masters.push(row)
+        if cello_master.save
+          @cello_masters.push(cello_master)
+        end
       end
     end
     respond_to do |format|

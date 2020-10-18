@@ -12,6 +12,7 @@ $(document).on('turbolinks:load', function() {
   rate_calculation();
   search_data();
   download_pdf_from();
+  infiniteScrolling();
   $('#inputGroupFile01').change(function(){
     $('label.custom-file-label').text($('#inputGroupFile01').val().split('\\').pop());
   });
@@ -41,6 +42,18 @@ $(document).on('turbolinks:load', function() {
 //   $('.product_select').select2('destroy');
 //   $('.capacity_select').select2('destroy');
 // });
+function infiniteScrolling() {
+  $(window).scroll(function(){
+    more_posts_url = $('.pagination .next_page a').attr('href');
+    if (more_posts_url && more_posts_url != undefined && $(window).scrollTop() > $(document).height() - $(window).height() - 60){
+      $('.pagination').html('<img src="/assets/2.gif" alt="Loading..." title="Loading..." />');
+      $.ajax({
+        url: more_posts_url,
+        dataType: 'script'
+      });
+    }
+  });
+}
 
 function set_selected_ids() {
   $('.cello_master_id').change(function(){

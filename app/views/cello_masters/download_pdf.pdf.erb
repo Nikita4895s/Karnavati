@@ -76,7 +76,7 @@
                 <p class="gst"><%= "(include #{cello_master.gst_per.round}% GST)" %></p>
                 <p style='margin: 50px; padding-top: 20px;'>
                     <% if cello_master.product_image.present? %>
-                        <%= image_tag cello_master.product_image_url, style: 'width: 700px; height: 700px;' %>
+                        <%= image_tag image_url("/product_images/#{cello_master.product_image}"), style: 'width: 700px; height: 700px;' %>
                     <% else %>
                         <%= image_tag "http://drive.google.com/uc?export=view&id=#{cello_master.link_url&.split('=')&.last}", style: 'width: 700px; height: 700px;' %>
                     <% end %>

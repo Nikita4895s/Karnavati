@@ -15,7 +15,7 @@
     <div class="card-body">
       <div class="content_main">
         <% if cello_master.product_image.present? %>
-          <%= image_tag cello_master.product_image_url, class: 'img-thumbnail product_img', id: 'img_cover' %>
+          <%= image_tag "/product_images/#{cello_master.product_image}", class: 'img-thumbnail product_img', id: 'img_cover' %>
         <% else %>
           <%= image_tag "http://drive.google.com/uc?export=view&id=#{cello_master.link_url&.split('=')&.last}", class: 'img-thumbnail product_img', id: 'img_cover' %>
         <% end %>

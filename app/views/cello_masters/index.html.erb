@@ -106,6 +106,9 @@
           <%= render partial: 'cello_master_row', locals: {cello_master: cello_master}%>
         <% end %>
       </div>
+      <div id="infinite-scrolling">
+        <%= will_paginate @cello_masters %>
+      </div>
     </div>
   </div>
 </div>
