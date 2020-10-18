@@ -62,40 +62,45 @@ class CelloMastersController < ApplicationController
   def download_image
     @cello_master = CelloMaster.find_by(id: params[:id])
     url = @cello_master.link_url.split('=').last
-    # image = MiniMagick::Image.open("http://drive.google.com/uc?export=view&id=#{url}")
-    image = MiniMagick::Image.open(Rails.root.join('public/product_images/' + @cello_master.product_image))
-    height = image.height
-    width = image.width
-    if height == width
-      @height = 800
-      pdf = WickedPdf.new.pdf_from_string(
-        render_to_string('cello_masters/generate_image.html.erb', layout: nil)
-      )
-    elsif height < width
-      @height = 600
-      pdf = WickedPdf.new.pdf_from_string(
-        render_to_string('cello_masters/generate_image.html.erb', layout: nil),
-        page_size: 'Letter'
-        # page_height: 148, page_width: 210
-      )
+    if @cello_master.product_image.present?
+      image = MiniMagick::Image.open(Rails.root.join('public/product_images/' + @cello_master.product_image))
     else
-      @height = 1200
-      pdf = WickedPdf.new.pdf_from_string(
-        render_to_string('cello_masters/generate_image.html.erb', layout: nil),
-        page_size: 'A3'
-        # page_height: 148, page_width: 210
-      )
+      image = MiniMagick::Image.open("http://drive.google.com/uc?export=view&id=#{url}")
     end
-    save_path = Rails.root.join('public','filename.pdf')
-    File.open(save_path, 'wb') do |file|
-      file << pdf
+    if image.present?
+      height = image.height
+      width = image.width
+      if height == width
+        @height = 800
+        pdf = WickedPdf.new.pdf_from_string(
+          render_to_string('cello_masters/generate_image.html.erb', layout: nil)
+        )
+      elsif height < width
+        @height = 600
+        pdf = WickedPdf.new.pdf_from_string(
+          render_to_string('cello_masters/generate_image.html.erb', layout: nil),
+          page_size: 'Letter'
+          # page_height: 148, page_width: 210
+        )
+      else
+        @height = 1200
+        pdf = WickedPdf.new.pdf_from_string(
+          render_to_string('cello_masters/generate_image.html.erb', layout: nil),
+          page_size: 'A3'
+          # page_height: 148, page_width: 210
+        )
+      end
+      save_path = Rails.root.join('public','filename.pdf')
+      File.open(save_path, 'wb') do |file|
+        file << pdf
+      end
+      require 'rmagick'
+      new_pdf = Magick::ImageList.new(save_path)
+      new_pdf_path = "#{@cello_master.product_name.parameterize.underscore}.jpg"
+      new_pdf.write(new_pdf_path)
+      send_file(new_pdf_path)
+      File.delete(save_path)
     end
-    require 'rmagick'
-    new_pdf = Magick::ImageList.new(save_path)
-    new_pdf_path = "#{@cello_master.product_name.parameterize.underscore}.jpg"
-    new_pdf.write(new_pdf_path)
-    send_file(new_pdf_path)
-    File.delete(save_path)
   end
 
   def update_discount
